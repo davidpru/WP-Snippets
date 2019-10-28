@@ -3,8 +3,8 @@ Colección de snippets para crear loops en Wordpress desde lo más básico hasta
 
 
 ### Básicos
-1. [Loop](#Loop básico)
-2. [Query Custom Post](#Query Custom Post)
+1. [Loop](#loop-basico)
+2. [Query Custom Post](#query-custom-post)
 
 
 ## Loop básico
