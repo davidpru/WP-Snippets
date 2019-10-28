@@ -1,11 +1,16 @@
 # Wordpess Snippets
-***
 Colección de snippets para crear loops en Wordpress desde lo más básico hasta lo más complejo.
 
-### Loop básico
-Loop para entradas y páginas de Wordpress
 
-```
+### Básicos
+1. [Loop](#Loop básico)
+2. [Query Custom Post](#Query Custom Post)
+
+
+## Loop básico
+> Ejemplo
+
+```php
 <?php if (have_posts()) : ?>
   <?php while (have_posts()) : the_post(); ?>
 
@@ -34,9 +39,10 @@ Loop para entradas y páginas de Wordpress
 ```
 
 
-### Query post
+## Query Custom Post
+> Ejemplo
 
-```
+```php
 <?php $query = new WP_Query( array( 'post_type' => 'cp_name', 'posts_per_page' => -1 ) );
 if ( $query->have_posts() ) : ?>
   <?php while ( $query->have_posts() ) : $query->the_post(); ?>
@@ -49,8 +55,8 @@ if ( $query->have_posts() ) : ?>
     </article>   
 
   <?php endwhile; wp_reset_postdata(); ?>
-<!-- show pagination here -->
-<?php else : ?>
+  <!-- show pagination here -->
+  <?php else : ?>
   <!-- show 404 error here -->
 <?php endif; ?>
 ```
