@@ -57,3 +57,35 @@ if ( $query->have_posts() ) : ?>
   <!-- show 404 error here -->
 <?php endif; ?>
 ```
+
+## Child Pages Loop
+> Ejemplo
+
+```php
+<?php
+$args = array(
+    'post_parent' => $post->ID,
+    'post_type' => 'page',
+    'orderby' => 'menu_order'
+);
+
+$child_query = new WP_Query( $args );
+?>
+
+<?php while ( $child_query->have_posts() ) : $child_query->the_post(); ?>
+
+    <div <?php post_class(); ?>>  
+        <?php  
+        if ( has_post_thumbnail() ) {
+            the_post_thumbnail('page-thumb-mine');
+        }
+        ?>
+        <h3><a href="<?php the_permalink(); ?>" rel="bookmark" title="<?php the_title(); ?>"><?php the_title(); ?></a></h3>
+        <?php the_excerpt(); ?>
+    </div>
+<?php endwhile; ?>
+
+<?php
+wp_reset_postdata();
+
+```
