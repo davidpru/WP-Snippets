@@ -1,13 +1,20 @@
 # Wordpess Snippets
-Colección de snippets para crear loops en Wordpress desde lo más básico hasta lo más complejo.
 
+Colección de snippets para crear loops en Wordpress
 
 ### Básicos
-1. [Loop](#loop-básico)
-2. [Query Custom Post](#query-custom-post)
 
+- [Loop básico](#loop-básico)
+- [Query Custom Post](#query-custom-post)
+- [Child Pages Loop](#child-pages-loop)
+- [Loop post relacionados](#loop-post-relacionados)
+
+### Terms
+
+- [Get terms con link](#get-terms-link)
 
 ## Loop básico
+
 > Ejemplo
 
 ```php
@@ -15,11 +22,11 @@ Colección de snippets para crear loops en Wordpress desde lo más básico hasta
   <?php while (have_posts()) : the_post(); ?>
 
   <article <?php post_class(); ?> id="post-<?php the_ID(); ?>">
-    <h2><a href="<?php the_permalink() ?>" rel="bookmark" title="Permanent Link to <?php the_title(); ?>"><?php the_title(); ?></a></h2>             
+    <h2><a href="<?php the_permalink() ?>" rel="bookmark" title="Permanent Link to <?php the_title(); ?>"><?php the_title(); ?></a></h2>
     <div class="entry">
       <?php the_content('Leer más &raquo;'); ?>
-    </div>       
-  </article>    
+    </div>
+  </article>
 
   <?php endwhile; ?>
 
@@ -35,8 +42,8 @@ Colección de snippets para crear loops en Wordpress desde lo más básico hasta
 
 ```
 
+## Query Custom Post
 
-## WP_Query
 > Ejemplo
 
 ```php
@@ -45,11 +52,11 @@ if ( $query->have_posts() ) : ?>
   <?php while ( $query->have_posts() ) : $query->the_post(); ?>
 
     <article class="post" id="post-<?php the_ID(); ?>">
-      <h2><a href="<?php the_permalink() ?>" rel="bookmark" title="Permanent Link to <?php the_title(); ?>"><?php the_title(); ?></a></h2>             
+      <h2><a href="<?php the_permalink() ?>" rel="bookmark" title="Permanent Link to <?php the_title(); ?>"><?php the_title(); ?></a></h2>
       <div class="entry">
         <?php the_content('Read the rest of this entry &raquo;'); ?>
-      </div>       
-    </article>   
+      </div>
+    </article>
 
   <?php endwhile; wp_reset_postdata(); ?>
   <!-- show pagination here -->
@@ -59,6 +66,7 @@ if ( $query->have_posts() ) : ?>
 ```
 
 ## Child Pages Loop
+
 > Ejemplo
 
 ```php
@@ -74,8 +82,8 @@ $child_query = new WP_Query( $args );
 
 <?php while ( $child_query->have_posts() ) : $child_query->the_post(); ?>
 
-    <div <?php post_class(); ?>>  
-        <?php  
+    <div <?php post_class(); ?>>
+        <?php
         if ( has_post_thumbnail() ) {
             the_post_thumbnail('page-thumb-mine');
         }
@@ -87,5 +95,35 @@ $child_query = new WP_Query( $args );
 
 <?php
 wp_reset_postdata();
+
+```
+
+## Loop post relacionados
+
+> Ejemplo
+
+```php
+        <?php $orig_post = $post;
+        global $post;
+        $categories = get_the_category($post->ID);
+        if ($categories) {
+        $category_ids = array();
+        foreach($categories as $individual_category) $category_ids[] = $individual_category->term_id;
+
+        $args=array(
+        'category__in' => $category_ids,
+        'post__not_in' => array($post->ID),
+        'posts_per_page'=> 3, // Number of related posts that will be shown.
+        'caller_get_posts'=>1
+        );
+
+        $my_query = new wp_query( $args );
+        if( $my_query->have_posts() ) {
+        while( $my_query->have_posts() ) {
+        $my_query->the_post();?>
+
+          // content loop
+
+        <?php } } } $post = $orig_post; wp_reset_query(); ?>
 
 ```
