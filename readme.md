@@ -127,3 +127,43 @@ wp_reset_postdata();
 <?php } } } $post = $orig_post; wp_reset_query(); ?>
 
 ```
+
+### Terms
+
+> Emjemplo basic
+
+```php
+$terms = get_terms( 'my_taxonomy' );
+if ( ! empty( $terms ) && ! is_wp_error( $terms ) ){
+	echo '<ul>';
+	foreach ( $terms as $term ) {
+		echo '<li>' . $term->name . '</li>';
+	}
+	echo '</ul>';
+}
+```
+
+> Ejemplo custom
+
+```php
+$args = array( 'hide_empty=0' );
+
+$terms = get_terms( 'my_term', $args );
+if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) {
+	$count = count( $terms );
+	$i = 0;
+	$term_list = '<div class="my_term-archive">';
+	foreach ( $terms as $term ) {
+		$i++;
+		$term_list .= '<a href="' . esc_url( get_term_link( $term ) ) . '" alt="' . esc_attr( sprintf( __( 'View all post filed under %s', 'my_localization_domain' ), $term->name ) ) . '">' . $term->name . '</a>';
+		if ( $count != $i ) {
+			$term_list .= ' &middot; ';
+		}
+		else {
+			$term_list .= '</div>';
+		}
+	}
+	echo $term_list;
+}
+
+```
