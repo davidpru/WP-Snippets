@@ -128,9 +128,11 @@ wp_reset_postdata();
 
 ```
 
-### Terms
+# Terms
 
-> Emjemplo basic
+### Get Terms basic
+
+> Emjemplo
 
 ```php
 $terms = get_terms( 'my_taxonomy' );
@@ -143,7 +145,9 @@ if ( ! empty( $terms ) && ! is_wp_error( $terms ) ){
 }
 ```
 
-> Ejemplo custom
+### Get Terms custom
+
+> Emjemplo con «empty hidden»
 
 ```php
 $args = array( 'hide_empty=0' );
